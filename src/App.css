@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Allura&family=Arvo:ital,wght@1,400;1,700&family=Comfortaa&family=DynaPuff&family=Inconsolata&family=Josefin+Sans:wght@300&family=Merriweather:wght@400;700&family=Montserrat&family=Mukta&family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+NKo&family=Oswald&family=Poppins:wght@400;500&family=Righteous&family=Roboto+Mono:wght@100;500&family=Roboto:wght@100&family=Satisfy&family=Signika+Negative:wght@300;400&family=Ubuntu&display=swap');
+
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
+.border-b-b {
+  border-bottom: 1px solid rgb(69, 68, 68);
+}
+
+.border-o {
+  border: 2px solid orange;
+}
+
+.font-judul {
+font-family: 'Signika Negative', sans-serif;
+}
+
+.bg-card {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid;
+}
+
+.page-memo {
+  animation: animateMemo;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes animateMemo {
+  0% {
+    top: 35rem;
+  }
+  100% {
+    top: -8rem;
+  }
+}

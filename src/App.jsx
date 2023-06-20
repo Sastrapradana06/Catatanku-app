@@ -5,6 +5,7 @@ import {Navbar} from './Components/Navbar'
 import Semua from './Components/Semua'
 import Folder from './Components/Folder'
 import TulisMemo from './Components/TulisMemo'
+import MemoDetail from './Components/memoDetail'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/' element={<Semua />}/>
           <Route path='/folder' element={<Folder />}/>
           <Route path='/tulismemo'  element={<TulisMemo />} />
+          <Route path='memo-detail/:id'  element={<TulisMemo />} />
         </Routes>
       </div>
     </div>

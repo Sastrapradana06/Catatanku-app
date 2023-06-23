@@ -3,14 +3,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getDetailMemo, setIsBtnEdit, setSelectedId, getMemo } from "../App/Features/memoSlice";
 import { setJudulMemo, setTeksMemo, setDay, setTime } from "../App/Features/inputSlice";
-import { useState } from "react";
-// import CheckboxInput from "../utils/Checkbox";
 
 export default function Semua() {
   const { memo, isBtnEdit, selectedId } = useSelector((state) => state.memo);
-  // const [selectedIds, setSelectedIds] = useState([]);
   const dispatch = useDispatch();
-  // console.log(memo);
 
   function addDetailMemo(memo) {
     dispatch(setJudulMemo(memo.judulMemo));

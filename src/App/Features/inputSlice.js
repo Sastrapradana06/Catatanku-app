@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 const initialState = {
     judulMemo: '',
     teksMemo: '',
     day: '',
-    time: ''
+    time: '',
 }
 
 export const inputSlice = createSlice({
@@ -22,9 +23,9 @@ export const inputSlice = createSlice({
         },
         setTime: (state, action) => {
             state.time = action.payload
-        }
+        },
     }
 })
 
-export const {setDay, setTime, setJudulMemo, setTeksMemo } = inputSlice.actions;
+export const {setDay, setTime, setJudulMemo, setTeksMemo, } = inputSlice.actions;
 export default inputSlice.reducer

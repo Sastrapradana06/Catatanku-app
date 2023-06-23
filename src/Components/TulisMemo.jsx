@@ -8,18 +8,24 @@ export default function TulisMemo() {
 
   const textareaRef = useRef(null);
 
-  const { judulMemo, teksMemo, day, time } = useSelector((state) => state.input);
+  const { judulMemo, teksMemo, day, time, } = useSelector((state) => state.input);
+  const { detailMemo } = useSelector((state) => state.memo);
   const dispatch = useDispatch();
-//   console.log({ judulMemo, teksMemo, day });
+  // console.log({ detailMemo });
 
   useEffect(() => {
-    const currentDate = new Date();
-    const currentDay = currentDate.toLocaleDateString("id-IN", { dateStyle: "full" });
-    const currentTime = currentDate.toLocaleTimeString("id-IN", { hour: "numeric", minute: "numeric" });
+    const textarea = textareaRef.current;
+    if(detailMemo.length === 0) {
+      textarea.focus()
 
-    dispatch(setDay(currentDay))
-    dispatch(setTime(currentTime))
-  }, [dispatch]);
+      const currentDate = new Date();
+      const currentDay = currentDate.toLocaleDateString("id-IN", { dateStyle: "full" });
+      const currentTime = currentDate.toLocaleTimeString("id-IN", { hour: "numeric", minute: "numeric" });
+  
+      dispatch(setDay(currentDay))
+      dispatch(setTime(currentTime))
+    }
+  }, [dispatch, detailMemo]);
 
 
   function setDynamicHeight() {
@@ -45,7 +51,7 @@ export default function TulisMemo() {
             value={judulMemo}
             placeholder="Masukkan Judul"
             onChange={(e) => dispatch(setJudulMemo(e.target.value))}
-            onFocus={() => setIsInputFocused(false)}
+            onFocus={() => setIsInputFocused(true)}
           />
           <div className=" mt-1 text-[.8rem] text-gray-400">
             <p>
@@ -61,7 +67,6 @@ export default function TulisMemo() {
             value={teksMemo}
             onChange={(e) => dispatch(setTeksMemo(e.target.value))}
             onFocus={() => setIsInputFocused(false)}
-            autoFocus
           />
         </form>
       </div>

@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     memo: [],
-    detailMemo: []
+    detailMemo: [],
+    isBtnEdit: false,
+    selectedId: []
 }
 
 export const memoSlice = createSlice({
@@ -14,9 +16,15 @@ export const memoSlice = createSlice({
         },
         getDetailMemo: (state, action) => {
             state.detailMemo = action.payload
+        },
+        setIsBtnEdit: (state, action) => {
+            state.isBtnEdit = action.payload
+        },
+        setSelectedId: (state, action) => {
+            state.selectedId = action.payload
         }
     }
 })
 
-export const {getMemo, getDetailMemo} = memoSlice.actions 
+export const {getMemo, getDetailMemo, setIsBtnEdit, setSelectedId} = memoSlice.actions 
 export default memoSlice.reducer

@@ -39,7 +39,7 @@ export default function Semua() {
 
   return (
     <div className="">
-      <div className="p-2 flex flex-col gap-3 w-[95%] m-auto ">
+      <div className="p-2 flex flex-col gap-3 w-[95%] m-auto pb-20">
         {memo.length === 0 ? (
           <p className="text-center">Buat Catatan Anda!!</p>
         ) : (

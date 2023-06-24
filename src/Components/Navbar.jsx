@@ -1,6 +1,6 @@
 
 import { BiSearch } from "react-icons/bi";
-import { AiOutlineEllipsis } from "react-icons/ai";
+// import { AiOutlineEllipsis } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 import { setIsBtnEdit } from "../App/Features/memoSlice";
@@ -18,10 +18,9 @@ export function Navbar() {
                 <div className="flex justify-center gap-4 items-center">
                     <button onClick={() => dispatch(setIsBtnEdit(true))}>Edit</button>
                     <button>
-                        <BiSearch size={25}/>
-                    </button>
-                    <button>
-                        <AiOutlineEllipsis size={25}/>
+                        <Link to='/search-memo'>
+                            <BiSearch size={25}/>
+                        </Link>
                     </button>
                 </div>
             </div>

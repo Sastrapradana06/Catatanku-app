@@ -4,7 +4,8 @@ const initialState = {
     memo: [],
     detailMemo: [],
     isBtnEdit: false,
-    selectedId: []
+    selectedId: [],
+    bookMark: []
 }
 
 export const memoSlice = createSlice({
@@ -13,6 +14,9 @@ export const memoSlice = createSlice({
     reducers: {
         getMemo: (state, action) => {
             state.memo = action.payload
+        },
+        getBookMark: (state, action) => {
+            state.bookMark = action.payload
         },
         getDetailMemo: (state, action) => {
             state.detailMemo = action.payload
@@ -26,5 +30,5 @@ export const memoSlice = createSlice({
     }
 })
 
-export const {getMemo, getDetailMemo, setIsBtnEdit, setSelectedId} = memoSlice.actions 
+export const {getMemo, getDetailMemo, setIsBtnEdit, setSelectedId, getBookMark} = memoSlice.actions 
 export default memoSlice.reducer

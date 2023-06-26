@@ -1,8 +1,9 @@
 
+
+
 export function generateRandomId() {
   return Math.floor(Math.random() * 1000) + 1;
 }
-
 
 export function getDate() {
   const date = new Date()
@@ -13,6 +14,20 @@ export function getDate() {
   return {dayNow, timeNow}
 }
 
-// export function resetDetailMemo() {
-//     dispatch(getDetailMemo([]))
-// }
+
+export function filterOutItemById(id, item) {
+  const filteredItems = item.filter((items) => {
+    return items.id != id;
+  });
+  return filteredItems;
+}
+
+export function filterItemById(id, item) {
+  const filteredItems = item.filter((items) => {
+    return items.id == id;
+  });
+  return filteredItems;
+}
+
+
+

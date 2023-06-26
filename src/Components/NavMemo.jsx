@@ -1,29 +1,39 @@
 import { setTeksMemo } from "../App/Features/inputSlice";
-import { getMemo, getDetailMemo } from "../App/Features/memoSlice";
+import { getMemo, getDetailMemo, getBookMark } from "../App/Features/memoSlice";
 
 import { RiCheckLine, RiArrowGoBackLine, RiArrowGoForwardFill, RiDeleteBin6Line } from "react-icons/ri";
-import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft, BsBookmarkStar, BsBookmarkStarFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import { generateRandomId, getDate } from "../App/Constanta";
+import { generateRandomId, getDate, filterOutItemById, filterItemById } from "../App/Constanta";
 
 import { useSelector, useDispatch } from "react-redux";
 
 export default function NavMemo({ isInputFocused }) {
   const [deletedValue, setDeletedValue] = useState("");
+  const [isBookMark, setIsBookMark] = useState(false)
 
   const { judulMemo, teksMemo, day, time } = useSelector((state) => state.input);
-  const { memo, detailMemo } = useSelector((state) => state.memo);
+  const { memo, detailMemo, bookMark } = useSelector((state) => state.memo);
   const dispatch = useDispatch();
 
   const { id } = useParams();
-  // console.log({memo, detailMemo});
+  // console.log({ bookMark});
+
+  useEffect(() => {
+    const filterBookMark = filterItemById(id, bookMark)
+    if(filterBookMark.length !== 0) {
+      setIsBookMark(true)
+    } else {
+      setIsBookMark(false)
+    }
+
+  }, [bookMark, id])
 
   function addMemo() {
     const newID = generateRandomId();
     const {dayNow, timeNow} = getDate()
-
 
     if(id) {
       const newTeksMemo = {
@@ -38,19 +48,31 @@ export default function NavMemo({ isInputFocused }) {
           timeNow
         }
       }
+      const filterMemo = filterOutItemById(id, memo)
+      dispatch(getMemo([newTeksMemo, ...filterMemo]))
 
-      const filterMemo = memo.filter((element) => {
-        return id != element.id
-      })
-      
-      const newMemo = [newTeksMemo, ...filterMemo];
-      dispatch(getMemo(newMemo))
+
+      const filterIdBookMark = filterItemById(id, bookMark)
+
+      if(filterIdBookMark.length !== 0) {
+        const newTeksMemoBookMark = {
+          id: detailMemo[0].id,
+          judulMemo,
+          teksMemo,
+          day: detailMemo[0].day,
+          time: detailMemo[0].time,
+          aksi: false
+        }
+        const filteredBookMark = filterOutItemById(id, bookMark)
+        dispatch(getBookMark([newTeksMemoBookMark, ...filteredBookMark]))
+
+      }
+    
       dispatch(getDetailMemo([]))
       return false
     }
 
-    dispatch(
-      getMemo([
+    dispatch(getMemo([
         {
           id: newID,
           judulMemo,
@@ -60,8 +82,7 @@ export default function NavMemo({ isInputFocused }) {
           aksi: false
         },
         ...memo,
-      ])
-    );
+      ]));
   }
 
   function handleDeleted() {
@@ -82,7 +103,28 @@ export default function NavMemo({ isInputFocused }) {
         return id != teks.id
       }) 
       dispatch(getMemo(newMemo))
+
+      const filteredBookMark = bookMark.filter((teks) => {
+        return teks.id != id
+      })
+      dispatch(getBookMark(filteredBookMark))
+
       dispatch(getDetailMemo([]))
+  }
+
+  function addBookMark() {
+    if(isBookMark) {
+      const filteredBookMark = bookMark.filter((teks) => {
+        return teks.id != id
+      })
+      dispatch(getBookMark(filteredBookMark))
+      setIsBookMark(false)
+      return false
+    }
+
+    const newBookMark = detailMemo[0]
+    dispatch(getBookMark([newBookMark, ...bookMark]))
+    setIsBookMark(true)
   }
 
   return (
@@ -96,13 +138,22 @@ export default function NavMemo({ isInputFocused }) {
           </button>
         </div>
         <div className="flex gap-4">
-          {detailMemo.length !== 0 && (
-            <button onClick={deletedMemo}>
-              <Link to='/'>
-                <RiDeleteBin6Line size={25} color="crimson"/>
-              </Link>
-            </button>
-          )} 
+          {detailMemo.length !== 0 && 
+          <div className="flex gap-4">
+              <button onClick={addBookMark}>
+                  {!isBookMark ? (
+                    <BsBookmarkStar size={23}/>
+                  ) : (
+                    <BsBookmarkStarFill size={23} color="orange" />
+                  )}
+              </button>
+              <button onClick={deletedMemo}>
+                <Link to='/'>
+                  <RiDeleteBin6Line size={25} color="crimson"/>
+                </Link>
+              </button>
+          </div>
+          } 
           <button onClick={handleDeleted} className={`${isInputFocused ? "hidden" : ""}`}>
             <RiArrowGoBackLine size={20} color={memo === "" ? "gray" : "white"} />
           </button>

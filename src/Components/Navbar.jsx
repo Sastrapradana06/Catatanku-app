@@ -1,14 +1,23 @@
 
 import { BiSearch } from "react-icons/bi";
-// import { AiOutlineEllipsis } from "react-icons/ai";
 import { Link } from "react-router-dom";
 
 import { setIsBtnEdit } from "../App/Features/memoSlice";
 import {  useDispatch } from "react-redux";
+import { useState } from "react";
 
 
 export function Navbar() {
     const dispatch = useDispatch()
+    const [isAllActive, setIsAllActive] = useState(true);
+
+    function handleAll() {
+        setIsAllActive(true)
+    }
+    function handleBookMark() {
+        setIsAllActive(false)
+    }
+
     return (
         <div className=" p-1 fixed top-0 w-[100%] border-b-b z-10 bg-[#2B2730]">
             <div className=" w-[90%] m-auto flex justify-between">
@@ -24,18 +33,18 @@ export function Navbar() {
                     </button>
                 </div>
             </div>
-            <div className=" mt-5 w-[90%] m-auto flex justify-center gap-32">
+            <div className=" mt-5 w-[90%] m-auto flex justify-center gap-32 ">
                 <div className="flex flex-col items-center gap-2">
-                    <button className="text-orange-400">
+                    <button className={isAllActive ? 'text-orange-400' : ''} onClick={handleAll}>
                         <Link to='/'>Semua</Link>
                     </button>
-                    <span className="border-o w-[30px]"></span>
+                    <span className={isAllActive ? 'border-o w-[30px]' : 'hidden'}></span>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                    <button>
-                        <Link to='/folder'>Folder</Link>
+                    <button className={!isAllActive ? 'text-orange-400' : ''}  onClick={handleBookMark} >
+                        <Link to='/bookMark'>BookMark</Link>
                     </button>
-                    {/* <span className="border w-[30px]"></span> */}
+                    <span className={!isAllActive ? 'border-o w-[30px]' : 'hidden'}></span>
                 </div>
             </div>
         </div>

@@ -1,11 +1,11 @@
 import { TbNotes } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getDetailMemo, setIsBtnEdit, setSelectedId, getMemo } from "../App/Features/memoSlice";
+import { getDetailMemo, setIsBtnEdit, setSelectedId, getMemo,getBookMark } from "../App/Features/memoSlice";
 import { setJudulMemo, setTeksMemo, setDay, setTime } from "../App/Features/inputSlice";
 
 export default function Semua() {
-  const { memo, isBtnEdit, selectedId } = useSelector((state) => state.memo);
+  const { memo, isBtnEdit, selectedId, bookMark } = useSelector((state) => state.memo);
   const dispatch = useDispatch();
 
   function addDetailMemo(memo) {
@@ -34,7 +34,10 @@ export default function Semua() {
 
   function updateMemo() {
     const filterIdMemo = memo.filter(objek => !selectedId.includes(objek.id));
+    const filterIdBookMark = bookMark.filter(objek => !selectedId.includes(objek.id));
     dispatch(getMemo(filterIdMemo))
+    dispatch(getBookMark(filterIdBookMark))
+    dispatch(setIsBtnEdit(false))
   }
 
   return (

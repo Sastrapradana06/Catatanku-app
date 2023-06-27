@@ -6,7 +6,7 @@ import { BsArrowLeft, BsBookmarkStar, BsBookmarkStarFill } from "react-icons/bs"
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import { generateRandomId, getDate, filterOutItemById, filterItemById } from "../App/Constanta";
+import { generateRandomId, getDate, filterOutItemById, filterItemById, saveItemTolocalStorage } from "../App/Constanta";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -19,7 +19,6 @@ export default function NavMemo({ isInputFocused }) {
   const dispatch = useDispatch();
 
   const { id } = useParams();
-  // console.log({ bookMark});
 
   useEffect(() => {
     const filterBookMark = filterItemById(id, bookMark)
@@ -29,7 +28,11 @@ export default function NavMemo({ isInputFocused }) {
       setIsBookMark(false)
     }
 
-  }, [bookMark, id])
+    const savedMemo = localStorage.getItem('memo');
+    const parsedMemo = JSON.parse(savedMemo);
+    console.log({parsedMemo, memo});
+
+  }, [bookMark, id, memo])
 
   function addMemo() {
     const newID = generateRandomId();
@@ -48,9 +51,10 @@ export default function NavMemo({ isInputFocused }) {
           timeNow
         }
       }
+      localStorage.clear()
       const filterMemo = filterOutItemById(id, memo)
       dispatch(getMemo([newTeksMemo, ...filterMemo]))
-
+      saveItemTolocalStorage('memo', [newTeksMemo, ...filterMemo])
 
       const filterIdBookMark = filterItemById(id, bookMark)
 
@@ -65,24 +69,25 @@ export default function NavMemo({ isInputFocused }) {
         }
         const filteredBookMark = filterOutItemById(id, bookMark)
         dispatch(getBookMark([newTeksMemoBookMark, ...filteredBookMark]))
+        saveItemTolocalStorage('bookMark', [newTeksMemoBookMark, ...filteredBookMark])
 
       }
     
       dispatch(getDetailMemo([]))
       return false
     }
-
-    dispatch(getMemo([
-        {
-          id: newID,
-          judulMemo,
-          teksMemo,
-          day,
-          time,
-          aksi: false
-        },
-        ...memo,
-      ]));
+    
+    const newMemo = {
+      id: newID,
+      judulMemo,
+      teksMemo,
+      day,
+      time,
+      aksi: false
+    };
+  
+    dispatch(getMemo([newMemo, ...memo]));
+    saveItemTolocalStorage('memo', [newMemo, ...memo])
   }
 
   function handleDeleted() {
@@ -99,37 +104,34 @@ export default function NavMemo({ isInputFocused }) {
   }
 
   function deletedMemo() {
-      const newMemo = memo.filter((teks) => {
-        return id != teks.id
-      }) 
+      const newMemo = filterOutItemById(id, memo)
       dispatch(getMemo(newMemo))
+      saveItemTolocalStorage('memo', newMemo)
 
-      const filteredBookMark = bookMark.filter((teks) => {
-        return teks.id != id
-      })
+      const filteredBookMark = filterOutItemById(id, bookMark)
       dispatch(getBookMark(filteredBookMark))
-
+      saveItemTolocalStorage('bookMark', filteredBookMark)
       dispatch(getDetailMemo([]))
   }
 
   function addBookMark() {
     if(isBookMark) {
-      const filteredBookMark = bookMark.filter((teks) => {
-        return teks.id != id
-      })
+      const filteredBookMark = filterOutItemById(id, bookMark)
       dispatch(getBookMark(filteredBookMark))
+      saveItemTolocalStorage('bookMark', filteredBookMark)
       setIsBookMark(false)
       return false
     }
 
     const newBookMark = detailMemo[0]
     dispatch(getBookMark([newBookMark, ...bookMark]))
+    saveItemTolocalStorage('bookMark', [newBookMark, ...bookMark])
     setIsBookMark(true)
   }
 
   return (
     <div className=" mt-4">
-      <div className=" w-[90%] m-auto h-[30px] flex justify-between items-center">
+      <div className=" w-[90%] m-auto h-[30px] flex justify-between items-center lg:w-[70%]">
         <div className=" flex items-center">
         <button onClick={() => dispatch(getDetailMemo([]))}>
             <Link to="/">
@@ -137,7 +139,7 @@ export default function NavMemo({ isInputFocused }) {
             </Link>
           </button>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 lg:gap-6">
           {detailMemo.length !== 0 && 
           <div className="flex gap-4">
               <button onClick={addBookMark}>

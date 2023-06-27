@@ -34,7 +34,7 @@ export default function SearchMemo() {
 
   return (
     <div className="absolute page-search z-30 w-full h-[100vh] ">
-      <div className="w-full h-[50px] flex justify-around items-center nav-search">
+      <div className="w-full h-[50px] flex justify-around items-center nav-search lg:w-[70%] lg:m-auto">
         <button>
           <Link to="/">
             <BsArrowLeft size={25} />
@@ -51,7 +51,7 @@ export default function SearchMemo() {
             memoSearch.map((teks) => {
               return (
                 <Link to={`memo-detail/${teks.id}`} onClick={addDetailMemo.bind(this, teks)} key={teks.id} className="w-full">
-                  <div className="w-[90%] m-auto border h-[100px] rounded-xl bg-card flex justify-between items-center">
+                  <div className="w-[90%] m-auto border h-[100px] rounded-xl bg-card flex justify-between items-center lg:w-[70%] lg:h-[130px]">
                     <div className=" w-[80%] m-auto h-[80%] flex flex-col items-center justify-center">
                       <h1 className="text-[1.2rem] text-orange-400">{teks.judulMemo}</h1>
                       <p className="text-[.7rem]  text-gray-400">
@@ -63,7 +63,7 @@ export default function SearchMemo() {
               );
             })
           ) : (
-            <div className="w-[90%]  h-[100px] rounded-xl bg-card flex justify-center items-center">
+            <div className="w-[90%]  h-[100px] rounded-xl bg-card flex justify-center items-center lg:w-[70%] lg:h-[130px]">
               <h1 className="text-orange-500 italic font-semibold">{inputUser === "" ? "Belum Ada Catatan Yang dicari" : "Catatan Tidak Ditemukan"}</h1>
             </div>
           )}

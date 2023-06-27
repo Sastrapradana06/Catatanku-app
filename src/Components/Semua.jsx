@@ -3,10 +3,22 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getDetailMemo, setIsBtnEdit, setSelectedId, getMemo,getBookMark } from "../App/Features/memoSlice";
 import { setJudulMemo, setTeksMemo, setDay, setTime } from "../App/Features/inputSlice";
+import { useEffect } from "react";
+import { saveItemTolocalStorage } from "../App/Constanta";
 
 export default function Semua() {
   const { memo, isBtnEdit, selectedId, bookMark } = useSelector((state) => state.memo);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const savedMemo = localStorage.getItem('memo');
+    const parsedMemo = JSON.parse(savedMemo);
+    if(savedMemo) {
+      dispatch(getMemo(parsedMemo));
+    } else {
+      dispatch(getMemo([]));
+    }
+  }, [dispatch]);
 
   function addDetailMemo(memo) {
     dispatch(setJudulMemo(memo.judulMemo));
@@ -36,13 +48,15 @@ export default function Semua() {
     const filterIdMemo = memo.filter(objek => !selectedId.includes(objek.id));
     const filterIdBookMark = bookMark.filter(objek => !selectedId.includes(objek.id));
     dispatch(getMemo(filterIdMemo))
+    saveItemTolocalStorage('memo', filterIdMemo)
     dispatch(getBookMark(filterIdBookMark))
+    saveItemTolocalStorage('bookMark', filterIdBookMark)
     dispatch(setIsBtnEdit(false))
   }
 
   return (
     <div className="">
-      <div className="p-2 flex flex-col gap-3 w-[95%] m-auto pb-20">
+      <div className="p-2 flex flex-col gap-3 w-[95%] m-auto pb-20 lg:w-[70%]">
         {memo.length === 0 ? (
           <p className="text-center">Buat Catatan Anda!!</p>
         ) : (
@@ -56,7 +70,7 @@ export default function Semua() {
                   </button>
                 ): null}
                 <Link to={`memo-detail/${teks.id}`} onClick={addDetailMemo.bind(this, teks)}>
-                  <div className="h-[100px] rounded-xl bg-card flex items-center justify-between">
+                  <div className="h-[100px] rounded-xl bg-card flex items-center justify-between lg:h-[130px]">
                     <div className="p-3">
                       <h1 className="text-[1.3rem]">{teks.judulMemo}</h1>
                       <p className="text-gray-400 mt-1 text-[.8rem]">{teks.day}</p>

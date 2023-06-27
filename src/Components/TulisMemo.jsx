@@ -41,7 +41,7 @@ export default function TulisMemo() {
 
       {/* input */}
       <div className=" mt-8">
-        <form className="w-[90%] m-auto">
+        <form className="w-[90%] m-auto lg:w-[70%]">
           <textarea
             className="bg-transparent w-full text-[1.6rem] flex flex-wrap items-center h-[50px] border-none outline-none mt-6 text-gray-400"
             onInput={setDynamicHeight}

@@ -1,6 +1,5 @@
 
 
-
 export function generateRandomId() {
   return Math.floor(Math.random() * 1000) + 1;
 }
@@ -27,6 +26,11 @@ export function filterItemById(id, item) {
     return items.id == id;
   });
   return filteredItems;
+}
+
+export function saveItemTolocalStorage(key, value) {
+  const setlocalStorage = localStorage.setItem(key, JSON.stringify(value))
+  return setlocalStorage
 }
 
 

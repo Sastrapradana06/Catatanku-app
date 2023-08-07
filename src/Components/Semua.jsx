@@ -71,8 +71,8 @@ export default function Semua() {
                 ): null}
                 <Link to={`memo-detail/${teks.id}`} onClick={addDetailMemo.bind(this, teks)}>
                   <div className="h-[100px] rounded-xl bg-card flex items-center justify-between lg:h-[130px]">
-                    <div className="p-3">
-                      <h1 className="text-[1.3rem]">{teks.judulMemo}</h1>
+                    <div className="p-3 w-[70%]">
+                      <h1 className="text-[1.3rem] h-[30px] overflow-hidden w-[100%]">{teks.judulMemo}</h1>
                       <p className="text-gray-400 mt-1 text-[.8rem]">{teks.day}</p>
                     </div>
                     <div className=" p-1 h-[60px] flex flex-col justify-between items-end mr-2">

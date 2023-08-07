@@ -30,7 +30,6 @@ export default function NavMemo({ isInputFocused }) {
 
     const savedMemo = localStorage.getItem('memo');
     const parsedMemo = JSON.parse(savedMemo);
-    console.log({parsedMemo, memo});
 
   }, [bookMark, id, memo])
 
